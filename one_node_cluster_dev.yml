@@ -33,7 +33,7 @@ Resources:
       - Name: Hue
       EbsRootVolumeSize: '10'
       Name: !Ref ClusterName
-      JobFlowRole: EMR_EC2_DefaultRole
+      JobFlowRole: EMR-EC2-restricted-role
       ServiceRole: EMR_DefaultRole
       ReleaseLabel: !Ref EmrRelease
       VisibleToAllUsers: true
