@@ -7,7 +7,7 @@ Parameters:
     Type: "String"
   ClusterName:
     Type: "String"
-    Default: "Three Node Cluster"
+    Default: "Two Node Cluster"
   EmrRelease:
     Type: "String"
     Default: "emr-6.4.0"
