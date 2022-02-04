@@ -43,8 +43,13 @@ Resources:
         TerminationProtected: false
         Ec2SubnetId: !Ref SubnetId
         MasterInstanceGroup:
+          InstanceCount: 1
+          InstanceType: !Ref ClusterInstanceType
+        CoreInstanceGroup:
           InstanceCount: 2
           InstanceType: !Ref ClusterInstanceType
+          Market: ON_DEMAND
+          Name: Core
       Configurations:
       - Classification: spark-hive-site
         ConfigurationProperties:
