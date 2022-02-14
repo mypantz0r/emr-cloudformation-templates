@@ -20,7 +20,7 @@ Parameters:
     AllowedValues:
     - "m5.xlarge"
     - "m5.2xlarge"
-    
+
 Resources:
   EmrCluster:
     Type: AWS::EMR::Cluster
@@ -37,7 +37,7 @@ Resources:
       ServiceRole: EMR_DefaultRole
       ReleaseLabel: !Ref EmrRelease
       VisibleToAllUsers: true
-      LogUri: 
+      LogUri:
         Fn::Sub: 's3://fb-dev-athena-datalake-needles-io-ap-southeast-2/emr_logs/'
       Instances:
         TerminationProtected: false
@@ -57,11 +57,10 @@ Resources:
           hive.metastore.schema.verification: false
       Name: kasimodo_dependencies
         ScriptBootstrapAction: 's3://fb-dev-edw-artifacts-needles-io-ap-southeast-2/configs/kasimodo_cluster.sh'
-            
+
+
 Outputs:
   ClusterId:
     Value:
       Ref: EmrCluster
     Description: The ID of the EMR Cluster
-    
-    
