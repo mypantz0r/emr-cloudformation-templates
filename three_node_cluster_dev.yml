@@ -54,9 +54,9 @@ Resources:
       - Classification: spark-hive-site
         ConfigurationProperties:
           hive.metastore.client.factory.class: com.amazonaws.glue.catalog.metastore.AWSGlueDataCatalogHiveClientFactory
-          hive.metastore.schema.verification: false
-      Name: kasimodo_dependencies
-        ScriptBootstrapAction: 's3://fb-dev-edw-artifacts-needles-io-ap-southeast-2/configs/kasimodo_cluster.sh'
+          hive.metastore.schema.verification: false 
+       Name: DependenciesBootstrap
+       ScriptBootstrapAction: 's3://fb-dev-edw-artifacts-needles-io-ap-southeast-2/configs/kasimodo_cluster.sh'
 
 
 Outputs:
