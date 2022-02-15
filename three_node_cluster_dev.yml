@@ -31,14 +31,17 @@ Resources:
       - Name: JupyterEnterpriseGateway
       - Name: Hive
       - Name: Hue
+      BootstrapActions:
+      - Name: Kasimodo-Dependencies
+        ScriptBootstrapAction:
+          Path: 's3://fb-dev-edw-artifacts-needles-io-ap-southeast-2/configs/kasimodo_cluster.sh'
       EbsRootVolumeSize: '10'
       Name: !Ref ClusterName
       JobFlowRole: EMR_EC2_DefaultRole
       ServiceRole: EMR_DefaultRole
       ReleaseLabel: !Ref EmrRelease
       VisibleToAllUsers: true
-      LogUri:
-        Fn::Sub: 's3://fb-dev-athena-datalake-needles-io-ap-southeast-2/emr_logs/'
+      LogUri: 's3://fb-dev-athena-datalake-needles-io-ap-southeast-2/emr_logs/'
       Instances:
         TerminationProtected: false
         Ec2SubnetId: !Ref SubnetId
@@ -54,9 +57,8 @@ Resources:
       - Classification: spark-hive-site
         ConfigurationProperties:
           hive.metastore.client.factory.class: com.amazonaws.glue.catalog.metastore.AWSGlueDataCatalogHiveClientFactory
-          hive.metastore.schema.verification: false 
-       Name: DependenciesBootstrap
-       ScriptBootstrapAction: 's3://fb-dev-edw-artifacts-needles-io-ap-southeast-2/configs/kasimodo_cluster.sh'
+          hive.metastore.schema.verification: false
+
 
 
 Outputs:
