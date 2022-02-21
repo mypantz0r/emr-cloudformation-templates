@@ -35,6 +35,9 @@ Resources:
       - Name: Kasimodo-Dependencies
         ScriptBootstrapAction:
           Path: 's3://fb-dev-edw-artifacts-needles-io-ap-southeast-2/configs/kasimodo_cluster.sh'
+      - Name: ssm-Dependencies
+        ScriptBootstrapAction:
+          Path: 's3://fb-dev-edw-artifacts-needles-io-ap-southeast-2/configs/ssm.sh'
       EbsRootVolumeSize: '10'
       Name: !Ref ClusterName
       JobFlowRole: EMR_EC2_DefaultRole
