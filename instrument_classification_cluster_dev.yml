@@ -20,7 +20,6 @@ Parameters:
     AllowedValues:
     - "m5.xlarge"
     - "m5.2xlarge"
-
 Resources:
   EmrCluster:
     Type: AWS::EMR::Cluster
@@ -34,9 +33,9 @@ Resources:
       BootstrapActions:
       - Name: Kasimodo-Dependencies
         ScriptBootstrapAction:
-          Path: 's3://fb-dev-edw-artifacts-needles-io-ap-southeast-2/configs/instrument_model_bootstrap.sh'
+          Path: 's3://fb-dev-edw-artifacts-needles-io-ap-southeast-2/configs/kasimodo_cluster.sh'
       EbsRootVolumeSize: '10'
-      Name: !Ref ClusterName
+      Name: 'Data Science Automation Jobs (do not use)'
       JobFlowRole: EMR_EC2_DefaultRole
       ServiceRole: EMR_DefaultRole
       ReleaseLabel: !Ref EmrRelease
@@ -58,8 +57,6 @@ Resources:
         ConfigurationProperties:
           hive.metastore.client.factory.class: com.amazonaws.glue.catalog.metastore.AWSGlueDataCatalogHiveClientFactory
           hive.metastore.schema.verification: false
-
-
 
 Outputs:
   ClusterId:
