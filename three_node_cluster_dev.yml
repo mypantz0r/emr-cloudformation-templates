@@ -32,7 +32,7 @@ Resources:
       - Name: Hive
       - Name: Hue
       BootstrapActions:
-      - Name: Kasimodo-Dependencies
+      - Name: Instrument-Model-Dependencies
         ScriptBootstrapAction:
           Path: 's3://fb-dev-edw-artifacts-needles-io-ap-southeast-2/configs/instrument_model_bootstrap.sh'
       EbsRootVolumeSize: '10'
