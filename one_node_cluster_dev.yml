@@ -49,6 +49,9 @@ Resources:
       - Classification: spark-hive-site
         ConfigurationProperties:
           hive.metastore.client.factory.class: com.amazonaws.glue.catalog.metastore.AWSGlueDataCatalogHiveClientFactory
+      - Classification: presto-connector-hive
+        ConfigurationProperties:
+          hive.metastore: glue
             
 Outputs:
   ClusterId:
