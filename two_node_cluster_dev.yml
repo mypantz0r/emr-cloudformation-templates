@@ -10,9 +10,9 @@ Parameters:
     Default: "Two Node Cluster"
   EmrRelease:
     Type: "String"
-    Default: "emr-6.4.0"
+    Default: "emr-6.6.0"
     AllowedValues:
-    - "emr-6.4.0"
+    - "emr-6.6.0"
     - "emr-5.33.1"
   ClusterInstanceType:
     Type: "String"
@@ -36,7 +36,7 @@ Resources:
       - Name: Instrument-Model-Dependencies
         ScriptBootstrapAction:
           Path: 's3://fb-dev-edw-artifacts-needles-io-ap-southeast-2/configs/instrument_model_bootstrap.sh'
-      EbsRootVolumeSize: '10'
+      EbsRootVolumeSize: '50'
       Name: !Ref ClusterName
       JobFlowRole: EMR_EC2_DefaultRole
       ServiceRole: EMR_DefaultRole
