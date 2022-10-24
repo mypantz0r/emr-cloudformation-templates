@@ -10,9 +10,9 @@ Parameters:
     Default: "Three Node Cluster"
   EmrRelease:
     Type: "String"
-    Default: "emr-6.4.0"
+    Default: "emr-6.6.0"
     AllowedValues:
-    - "emr-6.4.0"
+    - "emr-6.6.0"
     - "emr-5.33.1"
   ClusterInstanceType:
     Type: "String"
@@ -20,7 +20,7 @@ Parameters:
     AllowedValues:
     - "m5.xlarge"
     - "m5.2xlarge"
-    
+
 Resources:
   EmrCluster:
     Type: AWS::EMR::Cluster
@@ -31,14 +31,18 @@ Resources:
       - Name: JupyterEnterpriseGateway
       - Name: Hive
       - Name: Hue
-      EbsRootVolumeSize: '10'
+      - Name: Presto
+      BootstrapActions:
+      - Name: Instrument-Model-Dependencies
+        ScriptBootstrapAction:
+          Path: 's3://fb-prod-edw-artifacts-needles-io-ap-southeast-2/configs/instrument_model_bootstrap.sh'
+      EbsRootVolumeSize: '50'
       Name: !Ref ClusterName
       JobFlowRole: EMR_EC2_DefaultRole
       ServiceRole: EMR_DefaultRole
       ReleaseLabel: !Ref EmrRelease
       VisibleToAllUsers: true
-      LogUri: 
-        Fn::Sub: 's3://fb-prod-athena-datalake-needles-io-ap-southeast-2/emr_logs/'
+      LogUri: 's3://fb-prod-athena-datalake-needles-io-ap-southeast-2/emr_logs/'
       Instances:
         TerminationProtected: false
         Ec2SubnetId: !Ref SubnetId
@@ -50,15 +54,14 @@ Resources:
           InstanceType: !Ref ClusterInstanceType
           Market: ON_DEMAND
           Name: Core
+        Ec2KeyName: 'elora'
+
       Configurations:
       - Classification: spark-hive-site
         ConfigurationProperties:
           hive.metastore.client.factory.class: com.amazonaws.glue.catalog.metastore.AWSGlueDataCatalogHiveClientFactory
-            
-Outputs:
-  ClusterId:
-    Value:
-      Ref: EmrCluster
-    Description: The ID of the EMR Cluster
-    
-    
+          hive.metastore.schema.verification: false
+      - Classification: presto-connector-hive
+        ConfigurationProperties:
+          hive.metastore: glue
+
