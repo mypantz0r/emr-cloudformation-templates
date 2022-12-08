@@ -38,7 +38,7 @@ Resources:
           Path: 's3://fb-dev-edw-artifacts-needles-io-ap-southeast-2/configs/instrument_model_bootstrap.sh'
       - Name: Delta-Lake-Dependencies
         ScriptBootstrapAction:
-          Path: 's3://fb-dev-edw-artifacts-needles-io-ap-southeast-2/dependencies/deltalake_bootstrap.sh'
+          Path: 's3://fb-dev-edw-artifacts-needles-io-ap-southeast-2/configs/deltalake_bootstrap.sh'
       EbsRootVolumeSize: '50'
       Name: !Ref ClusterName
       JobFlowRole: EMR_EC2_DefaultRole
