@@ -10,9 +10,9 @@ Parameters:
     Default: "Two Node Cluster"
   EmrRelease:
     Type: "String"
-    Default: "emr-6.9.0"
+    Default: "emr-6.8.0"
     AllowedValues:
-    - "emr-6.9.0"
+    - "emr-6.8.0"
     - "emr-5.33.1"
   ClusterInstanceType:
     Type: "String"
