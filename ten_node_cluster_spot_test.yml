@@ -7,7 +7,7 @@ Parameters:
     Type: "String"
   ClusterName:
     Type: "String"
-    Default: "Twenty Node Cluster"
+    Default: "Two Node Cluster"
   EmrRelease:
     Type: "String"
     Default: "emr-6.8.0"
@@ -36,6 +36,9 @@ Resources:
       - Name: Instrument-Model-Dependencies
         ScriptBootstrapAction:
           Path: 's3://fb-dev-edw-artifacts-needles-io-ap-southeast-2/configs/instrument_model_bootstrap.sh'
+      - Name: Delta-Lake-Dependencies
+        ScriptBootstrapAction:
+          Path: 's3://fb-dev-edw-artifacts-needles-io-ap-southeast-2/configs/deltalake_bootstrap.sh'
       EbsRootVolumeSize: '50'
       Name: !Ref ClusterName
       JobFlowRole: EMR_EC2_DefaultRole
@@ -67,13 +70,20 @@ Resources:
         ConfigurationProperties:
           hive.metastore: glue
   TaskInstanceGroup:
-      Type: AWS::EMR::InstanceGroupConfig
+      Type: 'AWS::EMR::InstanceGroupConfig'
       Properties:
         InstanceRole: TASK
-        InstanceCount: 18
+        InstanceCount: 5
         InstanceType: 'm5.xlarge'
         Market: SPOT
-        BidPrice: '100'
-        Name: EmrTask
+        BidPrice: '1.110'
+        Name: cfnTask
         JobFlowId: !Ref EmrCluster
         
+
+
+
+
+
+
+
