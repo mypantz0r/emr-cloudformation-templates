@@ -48,7 +48,9 @@ Resources:
         Ec2SubnetId: !Ref SubnetId
         MasterInstanceGroup:
           InstanceCount: 1
+          Market: ON_DEMAND
           InstanceType: !Ref ClusterInstanceType
+          Name: Master
         CoreInstanceGroup:
           InstanceCount: 1
           InstanceType: !Ref ClusterInstanceType
@@ -66,14 +68,28 @@ Resources:
       - Classification: spark-env
         ConfigurationProperties:
           hive.metastore: glue
-  TaskInstanceGroup:
-      Type: AWS::EMR::InstanceGroupConfig
-      Properties:
-        InstanceRole: TASK
-        InstanceCount: 18
-        InstanceType: 'm5.xlarge'
-        Market: SPOT
-        BidPrice: '100'
-        Name: EmrTask
-        JobFlowId: !Ref EmrCluster
-        
+  TaskInstanceFleet:
+    Type: AWS::EMR::InstanceFleetConfig
+    Properties:
+      ClusterId:
+        Ref: EmrCluster
+      InstanceFleetType: TASK
+      InstanceTypeConfigs:
+        - InstanceType: m5.xlarge
+          WeightedCapacity: 2
+        - InstanceType: m5.2xlarge
+          WeightedCapacity: 2
+      LaunchSpecifications:
+        SpotSpecification:
+          TimeoutAction: TERMINATE_CLUSTER
+          TimeoutDurationMinutes: 60
+          AllocationStrategy: capacity-optimized
+      Name: TaskFleet
+      TargetSpotCapacity: "2"
+
+
+Outputs:
+  ClusterId:
+    Value: 
+      Ref: EmrCluster
+    Description: The ID of the EMR Cluster
