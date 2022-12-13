@@ -38,6 +38,7 @@ Resources:
       VisibleToAllUsers: true
       LogUri: 's3://fb-dev-athena-datalake-needles-io-ap-southeast-2/emr_logs/'
       Instances:
+        TerminationProtected: true
         CoreInstanceFleet:
           InstanceTypeConfigs:
             - InstanceType: c4.large
@@ -58,6 +59,18 @@ Resources:
           Name:
             Ref: AWS::StackName
           TargetOnDemandCapacity: "1"
+        CoreInstanceFleet:
+          InstanceTypeConfigs:
+            - InstanceType: c4.large
+              WeightedCapacity: 2
+            - InstanceType: m4.large
+              WeightedCapacity: 2
+          Name:
+            Ref: AWS::StackName
+          TargetOnDemandCapacity: "2"
+          LaunchSpecifications:
+            OnDemandSpecification:
+              AllocationStrategy: lowest-price
       Configurations:
       - Classification: spark-hive-site
         ConfigurationProperties:
@@ -82,7 +95,7 @@ Resources:
           WeightedCapacity: 2
       LaunchSpecifications:
         SpotSpecification:
-          TimeoutAction: TERMINATE_CLUSTER
+          TimeoutAction: SWITCH_TO_ON_DEMAND
           TimeoutDurationMinutes: 60
           AllocationStrategy: capacity-optimized
       Name: TaskFleet
