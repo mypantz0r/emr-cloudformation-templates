@@ -59,18 +59,6 @@ Resources:
           Name:
             Ref: AWS::StackName
           TargetOnDemandCapacity: "1"
-        CoreInstanceFleet:
-          InstanceTypeConfigs:
-            - InstanceType: c4.large
-              WeightedCapacity: 2
-            - InstanceType: m4.large
-              WeightedCapacity: 2
-          Name:
-            Ref: AWS::StackName
-          TargetOnDemandCapacity: "2"
-          LaunchSpecifications:
-            OnDemandSpecification:
-              AllocationStrategy: lowest-price
       Configurations:
       - Classification: spark-hive-site
         ConfigurationProperties:
