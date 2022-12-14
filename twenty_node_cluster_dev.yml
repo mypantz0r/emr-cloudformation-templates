@@ -14,7 +14,6 @@ Parameters:
     AllowedValues:
     - "emr-6.8.0"
     - "emr-5.33.1"
-
 Resources:
   EmrCluster:
     Type: AWS::EMR::Cluster
@@ -38,7 +37,7 @@ Resources:
       VisibleToAllUsers: true
       LogUri: 's3://fb-dev-athena-datalake-needles-io-ap-southeast-2/emr_logs/'
       Instances:
-        TerminationProtected: true
+        TerminationProtected: False
         CoreInstanceFleet:
           InstanceTypeConfigs:
             - InstanceType: m6gd.xlarge
@@ -81,14 +80,15 @@ Resources:
           WeightedCapacity: 2
         - InstanceType: m5a.2xlarge
           WeightedCapacity: 2
+        - InstanceType: m5.xlarge
+          WeightedCapacity: 1
       LaunchSpecifications:
         SpotSpecification:
           TimeoutAction: TERMINATE_CLUSTER
           TimeoutDurationMinutes: 80
           AllocationStrategy: capacity-optimized
       Name: TaskFleet
-      TargetSpotCapacity: "18"
-
+      TargetSpotCapacity: "16"
 
 Outputs:
   ClusterId:
