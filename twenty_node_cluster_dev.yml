@@ -41,10 +41,10 @@ Resources:
         TerminationProtected: true
         CoreInstanceFleet:
           InstanceTypeConfigs:
-            - InstanceType: c4.large
-              WeightedCapacity: 2
-            - InstanceType: m4.large
-              WeightedCapacity: 2
+            - InstanceType: m6gd.xlarge
+              WeightedCapacity: 1
+            - InstanceType: m6gd.2xlarge
+              WeightedCapacity: 1
           Name:
             Ref: AWS::StackName
           TargetOnDemandCapacity: "2"
@@ -77,14 +77,14 @@ Resources:
         Ref: EmrCluster
       InstanceFleetType: TASK
       InstanceTypeConfigs:
-        - InstanceType: m5.xlarge
-          WeightedCapacity: 2
         - InstanceType: m5.2xlarge
+          WeightedCapacity: 2
+        - InstanceType: m5a.2xlarge
           WeightedCapacity: 2
       LaunchSpecifications:
         SpotSpecification:
-          TimeoutAction: SWITCH_TO_ON_DEMAND
-          TimeoutDurationMinutes: 60
+          TimeoutAction: TERMINATE_CLUSTER
+          TimeoutDurationMinutes: 80
           AllocationStrategy: capacity-optimized
       Name: TaskFleet
       TargetSpotCapacity: "18"
