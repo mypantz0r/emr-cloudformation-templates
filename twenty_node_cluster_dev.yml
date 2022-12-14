@@ -82,13 +82,25 @@ Resources:
           WeightedCapacity: 2
         - InstanceType: m5.xlarge
           WeightedCapacity: 1
+        - InstanceType: r6g.2xlarge
+          WeightedCapacity: 2
+        - InstanceType: r6gd.xlarge
+          WeightedCapacity: 1
+        - InstanceType: m6gd.2xlarge
+          WeightedCapacity: 2
+        - InstanceType: c6g.2xlarge
+          WeightedCapacity: 2
+        - InstanceType: r6gd.2xlarge
+          WeightedCapacity: 2
+        - InstanceType: r5d.2xlarge
+          WeightedCapacity: 3
       LaunchSpecifications:
         SpotSpecification:
           TimeoutAction: TERMINATE_CLUSTER
           TimeoutDurationMinutes: 80
           AllocationStrategy: capacity-optimized
       Name: TaskFleet
-      TargetSpotCapacity: "16"
+      TargetSpotCapacity: "18"
 
 Outputs:
   ClusterId:

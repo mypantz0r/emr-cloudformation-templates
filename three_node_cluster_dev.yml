@@ -10,17 +10,10 @@ Parameters:
     Default: "Three Node Cluster"
   EmrRelease:
     Type: "String"
-    Default: "emr-6.6.0"
+    Default: "emr-6.8.0"
     AllowedValues:
-    - "emr-6.6.0"
+    - "emr-6.8.0"
     - "emr-5.33.1"
-  ClusterInstanceType:
-    Type: "String"
-    Default: "m5.xlarge"
-    AllowedValues:
-    - "m5.xlarge"
-    - "m5.2xlarge"
-
 Resources:
   EmrCluster:
     Type: AWS::EMR::Cluster
@@ -44,18 +37,41 @@ Resources:
       VisibleToAllUsers: true
       LogUri: 's3://fb-dev-athena-datalake-needles-io-ap-southeast-2/emr_logs/'
       Instances:
-        TerminationProtected: false
+        TerminationProtected: False
         Ec2SubnetId: !Ref SubnetId
-        MasterInstanceGroup:
-          InstanceCount: 1
-          InstanceType: !Ref ClusterInstanceType
-        CoreInstanceGroup:
-          InstanceCount: 2
-          InstanceType: !Ref ClusterInstanceType
-          Market: ON_DEMAND
-          Name: Core
-        Ec2KeyName: 'elora'
-
+        CoreInstanceFleet:
+            InstanceTypeConfigs:
+          - InstanceType: m5.2xlarge
+            WeightedCapacity: 2
+          - InstanceType: m5a.2xlarge
+            WeightedCapacity: 2
+          - InstanceType: m5.xlarge
+            WeightedCapacity: 1
+          - InstanceType: r6g.2xlarge
+            WeightedCapacity: 2
+          - InstanceType: r6gd.xlarge
+            WeightedCapacity: 1
+          - InstanceType: m6gd.2xlarge
+            WeightedCapacity: 2
+          - InstanceType: c6g.2xlarge
+            WeightedCapacity: 2
+          - InstanceType: r6gd.2xlarge
+            WeightedCapacity: 2
+          Name:
+            Ref: AWS::StackName
+          TargetSpotCapacity: "3"
+          LaunchSpecifications:
+            SpotSpecification:
+              TimeoutAction: SWITCH_TO_ON_DEMAND
+              TimeoutDurationMinutes: 15
+              AllocationStrategy: capacity-optimized
+        MasterInstanceFleet:
+          InstanceTypeConfigs:
+            - InstanceType: c4.large
+            - InstanceType: m4.large
+          Name:
+            Ref: AWS::StackName
+          TargetOnDemandCapacity: "1"
       Configurations:
       - Classification: spark-hive-site
         ConfigurationProperties:
@@ -64,4 +80,13 @@ Resources:
       - Classification: presto-connector-hive
         ConfigurationProperties:
           hive.metastore: glue
+      - Classification: spark-env
+        ConfigurationProperties:
+          hive.metastore: glue
+Outputs:
+  ClusterId:
+    Value: 
+      Ref: EmrCluster
+    Description: The ID of the EMR Cluster
+
 
