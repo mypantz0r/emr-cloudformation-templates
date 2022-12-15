@@ -38,15 +38,13 @@ Resources:
         Ec2SubnetId: !Ref SubnetId
         CoreInstanceFleet:
           InstanceTypeConfigs:
-            - InstanceType: m5.2xlarge
-              WeightedCapacity: 2
+            - InstanceType: m5.xlarge
+              WeightedCapacity: 1
+            - InstanceType: r6gd.xlarge
+              WeightedCapacity: 1
             - InstanceType: m5a.2xlarge
               WeightedCapacity: 2
             - InstanceType: m5.xlarge
-              WeightedCapacity: 1
-            - InstanceType: r6g.2xlarge
-              WeightedCapacity: 2
-            - InstanceType: r6gd.xlarge
               WeightedCapacity: 1
           Name: !Ref 'AWS::StackName'
           TargetSpotCapacity: '2'
