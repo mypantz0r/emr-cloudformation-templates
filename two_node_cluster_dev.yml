@@ -48,19 +48,13 @@ Resources:
               WeightedCapacity: 2
             - InstanceType: r6gd.xlarge
               WeightedCapacity: 1
-            - InstanceType: m6gd.2xlarge
-              WeightedCapacity: 2
-            - InstanceType: c6g.2xlarge
-              WeightedCapacity: 2
-            - InstanceType: r6gd.2xlarge
-              WeightedCapacity: 2
           Name: !Ref 'AWS::StackName'
           TargetSpotCapacity: '2'
           LaunchSpecifications:
             SpotSpecification:
               TimeoutAction: SWITCH_TO_ON_DEMAND
               TimeoutDurationMinutes: 15
-              AllocationStrategy: capacity-optimized
+              AllocationStrategy: lowest-price
         MasterInstanceFleet:
           InstanceTypeConfigs:
             - InstanceType: c4.large
