@@ -37,7 +37,7 @@ Resources:
       VisibleToAllUsers: true
       LogUri: 's3://fb-dev-athena-datalake-needles-io-ap-southeast-2/emr_logs/'
       Instances:
-        TerminationProtected: False
+        TerminationProtected: false
         CoreInstanceFleet:
           InstanceTypeConfigs:
             - InstanceType: m6gd.xlarge

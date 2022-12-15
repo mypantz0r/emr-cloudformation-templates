@@ -25,7 +25,7 @@ Resources:
       BootstrapActions:
         - Name: Instrument-Model-Dependencies
           ScriptBootstrapAction:
-            Path: s3://fb-dev-edw-artifacts-needles-io-ap-southeast-2/configs/instrument_model_bootstrap.sh
+            Path: 's3://fb-dev-edw-artifacts-needles-io-ap-southeast-2/configs/instrument_model_bootstrap.sh'
       EbsRootVolumeSize: '50'
       Name: !Ref ClusterName
       JobFlowRole: EMR_EC2_DefaultRole
@@ -70,8 +70,7 @@ Resources:
       Configurations:
         - Classification: spark-hive-site
           ConfigurationProperties:
-            hive.metastore.client.factory.class: >-
-              com.amazonaws.glue.catalog.metastore.AWSGlueDataCatalogHiveClientFactory
+            hive.metastore.client.factory.class: com.amazonaws.glue.catalog.metastore.AWSGlueDataCatalogHiveClientFactory
             hive.metastore.schema.verification: false
         - Classification: presto-connector-hive
           ConfigurationProperties:
