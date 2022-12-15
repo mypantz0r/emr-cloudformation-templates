@@ -42,6 +42,8 @@ Resources:
               WeightedCapacity: 1
             - InstanceType: r6gd.xlarge
               WeightedCapacity: 1
+            - InstanceType: m5.2xlarge
+              WeightedCapacity: 2
           Name: !Ref 'AWS::StackName'
           TargetSpotCapacity: '2'
           LaunchSpecifications:
