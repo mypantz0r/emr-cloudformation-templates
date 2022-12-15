@@ -1,41 +1,31 @@
-# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-# SPDX-License-Identifier: MIT-0
 AWSTemplateFormatVersion: 2010-09-09
-
 Parameters:
   SubnetId:
-    Type: "String"
+    Type: String
   ClusterName:
-    Type: "String"
-    Default: "Three Node Cluster"
+    Type: String
+    Default: Three Node Cluster
   EmrRelease:
-    Type: "String"
-    Default: "emr-6.6.0"
+    Type: String
+    Default: emr-6.8.0
     AllowedValues:
-    - "emr-6.6.0"
-    - "emr-5.33.1"
-  ClusterInstanceType:
-    Type: "String"
-    Default: "m5.xlarge"
-    AllowedValues:
-    - "m5.xlarge"
-    - "m5.2xlarge"
-
+      - emr-6.8.0
+      - emr-5.33.1
 Resources:
   EmrCluster:
-    Type: AWS::EMR::Cluster
+    Type: 'AWS::EMR::Cluster'
     Properties:
       Applications:
-      - Name: Spark
-      - Name: Livy
-      - Name: JupyterEnterpriseGateway
-      - Name: Hive
-      - Name: Hue
-      - Name: Presto
+        - Name: Spark
+        - Name: Livy
+        - Name: JupyterEnterpriseGateway
+        - Name: Hive
+        - Name: Hue
+        - Name: Presto
       BootstrapActions:
-      - Name: Instrument-Model-Dependencies
-        ScriptBootstrapAction:
-          Path: 's3://fb-prod-edw-artifacts-needles-io-ap-southeast-2/configs/instrument_model_bootstrap.sh'
+        - Name: Instrument-Model-Dependencies
+          ScriptBootstrapAction:
+            Path: 's3://fb-prod-edw-artifacts-needles-io-ap-southeast-2/configs/instrument_model_bootstrap.sh'
       EbsRootVolumeSize: '50'
       Name: !Ref ClusterName
       JobFlowRole: EMR_EC2_DefaultRole
@@ -46,22 +36,42 @@ Resources:
       Instances:
         TerminationProtected: false
         Ec2SubnetId: !Ref SubnetId
-        MasterInstanceGroup:
-          InstanceCount: 1
-          InstanceType: !Ref ClusterInstanceType
-        CoreInstanceGroup:
-          InstanceCount: 2
-          InstanceType: !Ref ClusterInstanceType
-          Market: ON_DEMAND
-          Name: Core
-        Ec2KeyName: 'elora'
-
+        CoreInstanceFleet:
+          InstanceTypeConfigs:
+            - InstanceType: m5.xlarge
+              WeightedCapacity: 1
+            - InstanceType: r6gd.xlarge
+              WeightedCapacity: 1
+            - InstanceType: m5.2xlarge
+              WeightedCapacity: 2
+            - InstanceType: m5a.2xlarge
+              WeightedCapacity: 2
+          Name: !Ref 'AWS::StackName'
+          TargetSpotCapacity: '3'
+          LaunchSpecifications:
+            SpotSpecification:
+              TimeoutAction: SWITCH_TO_ON_DEMAND
+              TimeoutDurationMinutes: 15
+              AllocationStrategy: capacity-optimized
+        MasterInstanceFleet:
+          InstanceTypeConfigs:
+            - InstanceType: c4.large
+            - InstanceType: m4.large
+          Name: !Ref 'AWS::StackName'
+          TargetOnDemandCapacity: '1'
       Configurations:
-      - Classification: spark-hive-site
-        ConfigurationProperties:
-          hive.metastore.client.factory.class: com.amazonaws.glue.catalog.metastore.AWSGlueDataCatalogHiveClientFactory
-          hive.metastore.schema.verification: false
-      - Classification: presto-connector-hive
-        ConfigurationProperties:
-          hive.metastore: glue
-
+        - Classification: spark-hive-site
+          ConfigurationProperties:
+            hive.metastore.client.factory.class: com.amazonaws.glue.catalog.metastore.AWSGlueDataCatalogHiveClientFactory
+            hive.metastore.schema.verification: false
+        - Classification: presto-connector-hive
+          ConfigurationProperties:
+            hive.metastore: glue
+        - Classification: spark-env
+          ConfigurationProperties:
+            hive.metastore: glue
+Outputs:
+  ClusterId:
+    Value: !Ref EmrCluster
+    Description: The ID of the EMR Cluster
+Rules: {}
