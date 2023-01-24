@@ -25,6 +25,7 @@ Resources:
       - Name: Hive
       - Name: Hue
       - Name: Presto
+      - Name: Delta
       BootstrapActions:
       - Name: Instrument-Model-Dependencies
         ScriptBootstrapAction:
