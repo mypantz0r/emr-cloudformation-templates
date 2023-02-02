@@ -69,6 +69,9 @@ Resources:
       - Classification: spark-env
         ConfigurationProperties:
           hive.metastore: glue
+      - Classification: delta-defaults
+        ConfigurationProperties:
+          delta.enabled: true
   TaskInstanceFleet:
     Type: AWS::EMR::InstanceFleetConfig
     Properties:

@@ -70,4 +70,7 @@ Resources:
       - Classification: presto-connector-hive
         ConfigurationProperties:
           hive.metastore: glue
+      - Classification: delta-defaults
+        ConfigurationProperties:
+          delta.enabled: true
 
