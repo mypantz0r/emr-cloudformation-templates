@@ -22,10 +22,10 @@ Parameters:
     - "r6gd.xlarge"
   MasterInstanceType:
     Type: "String"
-    Default: "m4.large"
+    Default: "m5.xlarge"
     AllowedValues:
-    - "c4.large"
-    - "m4.large"
+    - "r5.xlarge"
+    - "m5.xlarge"
 
 Resources:
   EmrCluster:

@@ -53,8 +53,8 @@ Resources:
         Ec2SubnetId: !Ref SubnetId
         MasterInstanceFleet:
           InstanceTypeConfigs:
-            - InstanceType: c4.large
-            - InstanceType: m4.large
+            - InstanceType: r5.xlarge
+            - InstanceType: m5.xlarge
           Name:
             Ref: AWS::StackName
           TargetOnDemandCapacity: "1"
