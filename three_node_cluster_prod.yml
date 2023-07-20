@@ -42,7 +42,7 @@ Resources:
       - Name: Instrument-Model-Dependencies
         ScriptBootstrapAction:
           Path: 's3://fb-prod-artifacts-needles-io-ap-southeast-2/configs/instrument_model_bootstrap.sh'
-      EbsRootVolumeSize: '50'
+      EbsRootVolumeSize: '100'
       Name: !Ref ClusterName
       JobFlowRole: EMR_EC2_DefaultRole
       ServiceRole: EMR_DefaultRole
